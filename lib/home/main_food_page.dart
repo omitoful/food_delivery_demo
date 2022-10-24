@@ -3,6 +3,7 @@ import 'package:food_delivery/Utils/app_layout.dart';
 import '../Utils/colors.dart';
 import '../widgets/big_text.dart';
 import '../widgets/small_text.dart';
+import 'food_page_body.dart';
 
 class MainFoodPage extends StatefulWidget {
   const MainFoodPage({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class _MainFoodPageState extends State<MainFoodPage> {
     return Scaffold(
       body: Column(
         children: [
-          // showing the header
+          /// showing the header
           Container(
             child: Container(
               margin: EdgeInsets.only(top: AppLayout.getHeight(60), bottom: AppLayout.getHeight(15)),
@@ -51,8 +52,8 @@ class _MainFoodPageState extends State<MainFoodPage> {
               ),
             ),
           ),
-          // showing the body
-          // FoodPageBody(),
+          /// showing the body
+          const FoodPageBody(),
         ],
       ),
     );
