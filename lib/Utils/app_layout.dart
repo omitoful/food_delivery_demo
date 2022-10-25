@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AppLayout {
+  static double screenH = Get.context!.height;
+  static double screenW = Get.context!.width;
+  static double pageView = screenH/2.64;
+  static double pageViewContainer = screenH/3.84;
+  static double pageTextContainer = screenH/7.03;
+
   static getSize(BuildContext context) {
     return MediaQuery.of(context).size;
   }

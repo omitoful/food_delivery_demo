@@ -1,3 +1,4 @@
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:food_delivery/Utils/app_layout.dart';
 import 'package:food_delivery/Utils/colors.dart';
@@ -18,7 +19,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
   PageController pageController = PageController(viewportFraction: 0.85);
   var _currentPageValue = 0.0;
   final double _scaleFactor = 0.8;
-  final double _height = AppLayout.getHeight(220);
+  final double _height = AppLayout.pageViewContainer;
 
   @override
   void initState() {
@@ -36,15 +37,30 @@ class _FoodPageBodyState extends State<FoodPageBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: AppLayout.getHeight(320),
-      child: PageView.builder(
-        controller: pageController,
-        itemCount: 5,
-        itemBuilder: (context, position) {
-          return _buildPageItem(position);
-        }
-      ),
+    return Column(
+      children: [
+        Container(
+          height: AppLayout.pageView,
+          child: PageView.builder(
+              controller: pageController,
+              itemCount: 5,
+              itemBuilder: (context, position) {
+                return _buildPageItem(position);
+              }
+          ),
+        ),
+        DotsIndicator(
+          dotsCount: 5,
+          position: _currentPageValue,
+          decorator: DotsDecorator(
+            activeColor: AppColors.mainColor,
+            size: const Size.square(9.0),
+            activeSize: const Size(18.0, 9.0),
+            activeShape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0)),
+          ),
+        )
+      ],
     );
   }
 
@@ -73,7 +89,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
         /// if not use stack, the container size will be the same as the super one.
         children: [
           Container(
-            height: AppLayout.getHeight(220),
+            height: AppLayout.pageViewContainer,
             margin: EdgeInsets.symmetric(horizontal: AppLayout.getWidth(10)),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(AppLayout.getHeight(25)),
@@ -87,11 +103,26 @@ class _FoodPageBodyState extends State<FoodPageBody> {
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              height: AppLayout.getHeight(120),
-              margin: EdgeInsets.only(left: AppLayout.getWidth(25), right: AppLayout.getWidth(25), bottom: AppLayout.getHeight(30)),
+              height: AppLayout.pageTextContainer,
+              margin: EdgeInsets.only(left: AppLayout.getWidth(30), right: AppLayout.getWidth(30), bottom: AppLayout.getHeight(30)),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(AppLayout.getHeight(25)),
+                  borderRadius: BorderRadius.circular(AppLayout.getHeight(20)),
                   color: Colors.white,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color(0xFFe8e8e8),
+                      blurRadius: 5.0,
+                      offset: Offset(0, 5),
+                    ),
+                    BoxShadow(
+                      color: Colors.white,
+                      offset: Offset(-5, 0),
+                    ),
+                    BoxShadow(
+                      color: Colors.white,
+                      offset: Offset(5, 0),
+                    )
+                  ]
               ),
               child: Container(
                 padding: EdgeInsets.only(top: AppLayout.getHeight(15), left: AppLayout.getWidth(15), right: AppLayout.getWidth(15)),
