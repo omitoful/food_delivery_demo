@@ -4,8 +4,6 @@ import 'package:food_delivery/Utils/app_layout.dart';
 import 'package:food_delivery/Utils/colors.dart';
 import 'package:food_delivery/widgets/big_text.dart';
 import 'package:food_delivery/widgets/small_text.dart';
-import 'package:get/get.dart';
-
 import '../widgets/icon_and_text.dart';
 
 class FoodPageBody extends StatefulWidget {
@@ -39,6 +37,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        /// slider section
         Container(
           height: AppLayout.pageView,
           child: PageView.builder(
@@ -49,6 +48,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
               }
           ),
         ),
+        /// dots
         DotsIndicator(
           dotsCount: 5,
           position: _currentPageValue,
@@ -59,13 +59,107 @@ class _FoodPageBodyState extends State<FoodPageBody> {
             activeShape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5.0)),
           ),
-        )
+        ),
+        /// popular title
+        SizedBox(height: AppLayout.getHeight(30)),
+        Container(
+          margin: EdgeInsets.only(left: AppLayout.getWidth(30)),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              BigText(text: "Popular"),
+              SizedBox(width: AppLayout.getWidth(10)),
+              Container(
+                margin: EdgeInsets.only(bottom: AppLayout.getHeight(3)),
+                child: BigText(text: ".", color: Colors.black26),
+              ),
+              SizedBox(width: AppLayout.getWidth(10)),
+              Container(
+                margin: EdgeInsets.only(bottom: AppLayout.getHeight(2)),
+                child: SmallText(text: "Food Pairing"),
+              )
+            ],
+          ),
+        ),
+        /// list of food
+        SizedBox(height: AppLayout.getHeight(20)),
+        MediaQuery.removePadding( /// remove the unexpected top padding
+          removeTop: true,
+          context: context,
+          child: ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: 10,
+              itemBuilder: (context, index) {
+                return Container(
+                  margin: EdgeInsets.symmetric(horizontal: AppLayout.getWidth(20), vertical: AppLayout.getHeight(5)),
+                  child: Row(
+                    children: [
+                      /// image section
+                      Container(
+                        width: AppLayout.getHeight(120),
+                        height: AppLayout.getHeight(120),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(AppLayout.getHeight(20)),
+                            color: Colors.white38,
+                            image: const DecorationImage(
+                                fit: BoxFit.cover,
+                                image: AssetImage("assets/img_1.png")
+                            )
+                        ),
+                      ),
+                      /// text container
+                      Expanded(
+                        child: Container(
+                          height: AppLayout.getHeight(100),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(topRight: Radius.circular(AppLayout.getHeight(20)), bottomRight: Radius.circular(AppLayout.getHeight(20))),
+                            color: Colors.white,
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: AppLayout.getWidth(10)),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center ,
+                              children: [
+                                BigText(text: "Nutritious fruit meal in China"),
+                                SizedBox(height: AppLayout.getHeight(10)),
+                                SmallText(text: "With chinese characteristics"),
+                                SizedBox(height: AppLayout.getHeight(10)),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: const [
+                                    IconAndTextWidget(
+                                        icon: Icons.circle_sharp,
+                                        text: "Normal",
+                                        iconColor: AppColors.iconColor1),
+                                    IconAndTextWidget(
+                                        icon: Icons.location_on,
+                                        text: "1.7km",
+                                        iconColor: AppColors.mainColor),
+                                    IconAndTextWidget(
+                                        icon: Icons.access_time_rounded,
+                                        text: "32min",
+                                        iconColor: AppColors.iconColor2),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+          ),
+        ),
       ],
     );
   }
 
   Widget _buildPageItem(int index) {
-    Matrix4 matrix = new Matrix4.identity();
+    Matrix4 matrix = Matrix4.identity();
     if (index == _currentPageValue.floor()) {
       var currScale = 1 - (_currentPageValue - index) * (1 - _scaleFactor);
       var currTrans = _height * (1 - currScale) / 2;
