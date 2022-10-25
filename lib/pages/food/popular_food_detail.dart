@@ -13,6 +13,7 @@ class PopularFoodDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Stack(
         children: [
           Positioned(
@@ -66,6 +67,43 @@ class PopularFoodDetail extends StatelessWidget {
             ),
           )
         ]
+      ),
+      bottomNavigationBar: Container(
+        height: AppLayout.getHeight(120),
+        padding: EdgeInsets.symmetric(horizontal: AppLayout.getWidth(20), vertical: AppLayout.getHeight(30)),
+        decoration: BoxDecoration(
+          color: AppColors.btnBgColor,
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(AppLayout.getHeight(40)), topRight: Radius.circular(AppLayout.getHeight(40))),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              padding: EdgeInsets.all(AppLayout.getHeight(20)),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(AppLayout.getHeight(20)),
+                color: Colors.white
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.remove, color: AppColors.signColor),
+                  SizedBox(height: AppLayout.getWidth(10)),
+                  BigText(text: "0"),
+                  SizedBox(height: AppLayout.getWidth(10)),
+                  const Icon(Icons.add,  color: AppColors.signColor)
+                ],
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.all(AppLayout.getHeight(20)),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(AppLayout.getHeight(20)),
+                color: AppColors.mainColor
+              ),
+              child: BigText(text: "\$10 | Add to cart", color: Colors.white),
+            )
+          ],
+        ),
       ),
     );
   }
