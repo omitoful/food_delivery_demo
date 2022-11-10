@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery/Utils/app_layout.dart';
+import 'package:food_delivery/controllers/popular_product_controller.dart';
 import 'package:food_delivery/widgets/app_column.dart';
 import 'package:food_delivery/widgets/expandable_text_widget.dart';
+import 'package:get/get.dart';
+import '../../Utils/app_constants.dart';
 import '../../Utils/colors.dart';
+import '../../routes/route_helper.dart';
 import '../../widgets/app_icon.dart';
 import '../../widgets/big_text.dart';
-import '../../widgets/icon_and_text.dart';
-import '../../widgets/small_text.dart';
 
 class PopularFoodDetail extends StatelessWidget {
-  const PopularFoodDetail({Key? key}) : super(key: key);
+  final int pageId;
+  const PopularFoodDetail({Key? key, required this.pageId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var product = Get.find<PopularProductController>().popularProductList[pageId];
+    print("${product.name}'s page id is: $pageId");
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -24,10 +29,10 @@ class PopularFoodDetail extends StatelessWidget {
             child: Container(
               width: double.maxFinite,
               height: AppLayout.getHeight(350),
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage("assets/img_1.png")
+                  image: NetworkImage(AppConstants.BASE_URL + AppConstants.UPLOAD_URL + product.img!)
                 )
               ),
             ),
@@ -39,9 +44,13 @@ class PopularFoodDetail extends StatelessWidget {
             right: AppLayout.getWidth(20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                AppIcon(icon: Icons.arrow_back_ios),
-                AppIcon(icon: Icons.shopping_cart_outlined)
+              children: [
+                GestureDetector(
+                    onTap: () {
+                      Get.toNamed(RouteHelper.getInitial());
+                    },
+                    child: const AppIcon(icon: Icons.arrow_back_ios)),
+                const AppIcon(icon: Icons.shopping_cart_outlined)
               ],
             ),
           ),
@@ -63,14 +72,14 @@ class PopularFoodDetail extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const AppColumn(text: "Chinese Side"),
+                  AppColumn(text: product.name.toString()),
                   SizedBox(height: AppLayout.getHeight(20)),
                   BigText(text: "Introduce"),
                   SizedBox(height: AppLayout.getHeight(10)),
-                  const Expanded(
+                  Expanded(
                     child: SingleChildScrollView(
                       child: ExpandableTextWidget(
-                          text: "This is an e-commerce app for food delivery using flutter with backend as crash course tutorial for iOS and Android. This is a shopping app with backend of Laravel and Laravel admin panel using restful api complete CRUD operations. We also used firebase for notification. This tutorial covers complete shopping cart, placing orders, signup or registration, sign-in or login, payment.\nThis is an e-commerce app for food delivery using flutter with backend as crash course tutorial for iOS and Android. This is a shopping app with backend of Laravel and Laravel admin panel using restful api complete CRUD operations. We also used firebase for notification. This tutorial covers complete shopping cart, placing orders, signup or registration, sign-in or login, payment.\nThis is an e-commerce app for food delivery using flutter with backend as crash course tutorial for iOS and Android. This is a shopping app with backend of Laravel and Laravel admin panel using restful api complete CRUD operations. We also used firebase for notification. This tutorial covers complete shopping cart, placing orders, signup or registration, sign-in or login, payment."
+                        text: product.description,
                       ),
                     ),
                   ),
@@ -113,7 +122,7 @@ class PopularFoodDetail extends StatelessWidget {
                 borderRadius: BorderRadius.circular(AppLayout.getHeight(20)),
                 color: AppColors.mainColor
               ),
-              child: BigText(text: "\$10 | Add to cart", color: Colors.white),
+              child: BigText(text: "\$ ${product.price} | Add to cart", color: Colors.white),
             )
           ],
         ),
