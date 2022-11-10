@@ -17,7 +17,7 @@ class PopularFoodDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var product = Get.find<PopularProductController>().popularProductList[pageId];
-    print("${product.name}'s page id is: $pageId");
+    Get.find<PopularProductController>().initProduct();
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -90,43 +90,55 @@ class PopularFoodDetail extends StatelessWidget {
           ),
         ]
       ),
-      bottomNavigationBar: Container(
-        height: AppLayout.getHeight(120),
-        padding: EdgeInsets.symmetric(horizontal: AppLayout.getWidth(20), vertical: AppLayout.getHeight(30)),
-        decoration: BoxDecoration(
-          color: AppColors.btnBgColor,
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(AppLayout.getHeight(40)), topRight: Radius.circular(AppLayout.getHeight(40))),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              padding: EdgeInsets.all(AppLayout.getHeight(20)),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(AppLayout.getHeight(20)),
-                color: Colors.white
+      bottomNavigationBar: GetBuilder<PopularProductController>(builder: (popularProduct) {
+        return Container(
+          height: AppLayout.getHeight(120),
+          padding: EdgeInsets.symmetric(horizontal: AppLayout.getWidth(20), vertical: AppLayout.getHeight(30)),
+          decoration: BoxDecoration(
+            color: AppColors.btnBgColor,
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(AppLayout.getHeight(40)), topRight: Radius.circular(AppLayout.getHeight(40))),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                padding: EdgeInsets.all(AppLayout.getHeight(20)),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(AppLayout.getHeight(20)),
+                    color: Colors.white
+                ),
+                child: Row(
+                  children: [
+                    GestureDetector(
+                        onTap: () {
+                          popularProduct.setQuantity(false);
+                        },
+                        child: const Icon(Icons.remove, color: AppColors.signColor)
+                    ),
+                    SizedBox(height: AppLayout.getWidth(10)),
+                    BigText(text: popularProduct.quantity.toString()),
+                    SizedBox(height: AppLayout.getWidth(10)),
+                    GestureDetector(
+                        onTap: () {
+                          popularProduct.setQuantity(true);
+                        },
+                        child: const Icon(Icons.add,  color: AppColors.signColor)
+                    )
+                  ],
+                ),
               ),
-              child: Row(
-                children: [
-                  const Icon(Icons.remove, color: AppColors.signColor),
-                  SizedBox(height: AppLayout.getWidth(10)),
-                  BigText(text: "0"),
-                  SizedBox(height: AppLayout.getWidth(10)),
-                  const Icon(Icons.add,  color: AppColors.signColor)
-                ],
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(AppLayout.getHeight(20)),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(AppLayout.getHeight(20)),
-                color: AppColors.mainColor
-              ),
-              child: BigText(text: "\$ ${product.price} | Add to cart", color: Colors.white),
-            )
-          ],
-        ),
-      ),
+              Container(
+                padding: EdgeInsets.all(AppLayout.getHeight(20)),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(AppLayout.getHeight(20)),
+                    color: AppColors.mainColor
+                ),
+                child: BigText(text: "\$ ${product.price * popularProduct.quantity} | Add to cart", color: Colors.white),
+              )
+            ],
+          ),
+        );
+      }),
     );
   }
 }
