@@ -59,10 +59,19 @@ class PopularProductController extends GetxController {
   void initProduct(CartController cart) {
     _quantity = 1;
     _inCartItems = 0;
-    cart = _cart;
+    _cart = cart;
   }
 
   void addItem(ProductModel product) {
     _cart.addItem(product, _quantity);
+    _cart.items.forEach((key, value) { 
+      print("The id is ${ value.id }, quantity is ${ value.quantity }");
+    });
+    _quantity = 1;
+    update();
+    Get.snackbar("Add items success", "success to add ${ product.name }",
+        backgroundColor: AppColors.mainColor,
+        colorText: Colors.white
+    );
   }
 }

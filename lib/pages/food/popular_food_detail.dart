@@ -123,7 +123,7 @@ class PopularFoodDetail extends StatelessWidget {
                         onTap: () {
                           popularProduct.setQuantity(true);
                         },
-                        child: const Icon(Icons.add,  color: AppColors.signColor)
+                        child: const Icon(Icons.add, color: AppColors.signColor)
                     )
                   ],
                 ),
@@ -134,7 +134,12 @@ class PopularFoodDetail extends StatelessWidget {
                     borderRadius: BorderRadius.circular(AppLayout.getHeight(20)),
                     color: AppColors.mainColor
                 ),
-                child: BigText(text: "\$ ${product.price * popularProduct.quantity} | Add to cart", color: Colors.white),
+                child: GestureDetector(
+                    onTap: () {
+                      popularProduct.addItem(product);
+                    },
+                    child: BigText(text: "\$ ${product.price * popularProduct.quantity} | Add to cart", color: Colors.white)
+                ),
               )
             ],
           ),
