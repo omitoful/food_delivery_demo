@@ -74,4 +74,8 @@ class PopularProductController extends GetxController {
         colorText: Colors.white
     );
   }
+
+  int get totalItems {
+    return _cart.totalItems;
+  }
 }
