@@ -10,6 +10,7 @@ import '../../Utils/colors.dart';
 import '../../routes/route_helper.dart';
 import '../../widgets/app_icon.dart';
 import '../../widgets/big_text.dart';
+import '../cart/cart_page.dart';
 
 class PopularFoodDetail extends StatelessWidget {
   final int pageId;
@@ -53,31 +54,36 @@ class PopularFoodDetail extends StatelessWidget {
                     child: const AppIcon(icon: Icons.arrow_back_ios)
                 ),
                 GetBuilder<PopularProductController>(builder: (controller) {
-                  return Stack(
-                    children: [
-                      const AppIcon(icon: Icons.shopping_cart_outlined),
-                      Get.find<PopularProductController>().totalItems >= 1 ?
-                      Positioned(
-                        right: 0,
-                        top: 0,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            AppIcon(
-                              icon: Icons.circle,
-                              size: AppLayout.getHeight(20),
-                              iconColor: Colors.transparent,
-                              bgColor: AppColors.mainColor,
-                            ),
-                            BigText(
-                              text: Get.find<PopularProductController>().totalItems.toString(),
-                              size: 12,
-                              color: Colors.white,
-                            )
-                          ],
-                        ),
-                      ) : Container()
-                    ],
+                  return GestureDetector(
+                    onTap: () {
+                      Get.to(() => const CartPage());
+                    },
+                    child: Stack(
+                      children: [
+                        const AppIcon(icon: Icons.shopping_cart_outlined),
+                        Get.find<PopularProductController>().totalItems >= 1 ?
+                        Positioned(
+                          right: 0,
+                          top: 0,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              AppIcon(
+                                icon: Icons.circle,
+                                size: AppLayout.getHeight(20),
+                                iconColor: Colors.transparent,
+                                bgColor: AppColors.mainColor,
+                              ),
+                              BigText(
+                                text: Get.find<PopularProductController>().totalItems.toString(),
+                                size: 12,
+                                color: Colors.white,
+                              )
+                            ],
+                          ),
+                        ) : Container()
+                      ],
+                    ),
                   );
                 })
               ],
